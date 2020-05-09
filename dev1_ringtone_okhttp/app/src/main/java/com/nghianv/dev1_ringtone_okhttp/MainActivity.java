@@ -1,25 +1,31 @@
 package com.nghianv.dev1_ringtone_okhttp;
 
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.widget.Toast;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.nghianv.dev1_ringtone_okhttp.adapter.RecyclerviewRingtoneAdapter;
 import com.nghianv.dev1_ringtone_okhttp.model.Ringtone;
+import com.nghianv.dev1_ringtone_okhttp.model.SeverInfo;
+import com.nghianv.dev1_ringtone_okhttp.model.SeverInfoJson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -53,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
 				.connectTimeout(15, TimeUnit.SECONDS)
 				.retryOnConnectionFailure(true)
 				.build();
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			Toast.makeText(MainActivity.this, "Start Downloading", Toast.LENGTH_SHORT).show();
+			findViewById(R.id.progress_bar_loading).setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -68,44 +75,33 @@ public class MainActivity extends AppCompatActivity {
 			//
 			try {
 				Response response = okHttpClient.newCall(request).execute();
-/*
-				InputStream inputStream = response.body().byteStream();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-				StringBuilder result = new StringBuilder();
-				String line = reader.readLine();
-				while (line != null) {
-					result.append(line);
-					line = reader.readLine();
-				}
-				List<Ringtone> ringtone = parseJson(result.toString());
-
-*/
 				List<Ringtone> ringtone = parseJson(response.body().string());
 				return ringtone;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			return null;
+
 		}
 
 		private List<Ringtone> parseJson(String json) {
 			List<Ringtone> ringtones = new ArrayList<>();
 
 			try {
-				JSONObject root = new JSONObject(json);
-				JSONArray jsonServerInfor = root.getJSONArray("ServerInfo");
-				JSONObject object = jsonServerInfor.getJSONObject(0);
-				JSONArray jsonRingtone = object.getJSONArray("ringtones");
-				for (int i = 0; i < jsonRingtone.length(); i++) {
-					JSONObject ringtone = jsonRingtone.getJSONObject(i);
-					int id = ringtone.getInt("id");
-					String name = ringtone.getString("name");
-					String count = ringtone.getString("count");
-					String path = ringtone.getString("path");
+				Gson gson = new Gson();
+				SeverInfoJson severInfoJson = gson.fromJson(json, SeverInfoJson.class);
+				SeverInfo severInfo = severInfoJson.getSeverInfo().get(0);
+				List<Ringtone> ringtoneList = severInfo.getRingtones();
+				for (int i = 0; i < ringtoneList.size(); i++) {
+					Ringtone ringtone = ringtoneList.get(i);
+					int id = ringtone.getId();
+					String name = ringtone.getName();
+					String count = ringtone.getCount();
+					String path = ringtone.getPath();
 					Ringtone ring = new Ringtone(id, name, count, path);
 					ringtones.add(ring);
 				}
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return ringtones;
@@ -114,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(List<Ringtone> ringtones) {
 			super.onPostExecute(ringtones);
+			findViewById(R.id.progress_bar_loading).setVisibility(View.GONE);
 			mListRingtone.clear();
 			mListRingtone.addAll(ringtones);
 			mRingtoneAdapter.notifyDataSetChanged();

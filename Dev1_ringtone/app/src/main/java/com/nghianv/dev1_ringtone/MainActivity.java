@@ -2,14 +2,18 @@ package com.nghianv.dev1_ringtone;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.nghianv.dev1_ringtone.adapter.RecyclerviewRingtoneAdapter;
 import com.nghianv.dev1_ringtone.model.Ringtone;
+import com.nghianv.dev1_ringtone.model.ServerInfo;
+import com.nghianv.dev1_ringtone.model.ServerInfoJson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			Toast.makeText(MainActivity.this, "Start Downloading", Toast.LENGTH_SHORT).show();
+			findViewById(R.id.progress_bar_loading).setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -81,20 +85,20 @@ public class MainActivity extends AppCompatActivity {
 		private List<Ringtone> parseJson(String json) {
 			List<Ringtone> ringtones = new ArrayList<>();
 			try {
-				JSONObject root = new JSONObject(json);
-				JSONArray jsonServerInfor = root.getJSONArray("ServerInfo");
-				JSONObject jsonObject = jsonServerInfor.getJSONObject(0);
-				JSONArray jsonRingtone = jsonObject.getJSONArray("ringtones");
-				for (int i = 0; i < jsonRingtone.length(); i++) {
-					JSONObject ringtone = jsonRingtone.getJSONObject(i);
-					int id = ringtone.getInt("id");
-					String name = ringtone.getString("name");
-					String count = ringtone.getString("count");
-					String path = ringtone.getString("path");
+				Gson gson = new Gson();
+				ServerInfoJson serverInfoJson = gson.fromJson(json, ServerInfoJson.class);
+				ServerInfo serverInfo = serverInfoJson.getServerInfo().get(0);
+				List<Ringtone> ringtoneList = serverInfo.getRingtones();
+				for (int i = 0; i < ringtoneList.size(); i++) {
+					Ringtone ringtone = ringtoneList.get(i);
+					int id = ringtone.getId();
+					String name = ringtone.getName();
+					String count = ringtone.getCount();
+					String path = ringtone.getPath();
 					Ringtone ring = new Ringtone(id, name, count, path);
 					ringtones.add(ring);
 				}
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return ringtones;
@@ -103,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(List<Ringtone> ringtones) {
 			super.onPostExecute(ringtones);
+			findViewById(R.id.progress_bar_loading).setVisibility(View.GONE);
 			mListRingtone.clear();
 			mListRingtone.addAll(ringtones);
 			mRingtoneAdapter.notifyDataSetChanged();
