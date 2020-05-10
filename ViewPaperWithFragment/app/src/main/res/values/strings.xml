@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ViewPaperWithFragment</string>
+    <string name="tab_text_1">Fragment A</string>
+    <string name="tab_text_2">Fragment B</string>
+    <string name="fragment_a">Fragment A</string>
+    <string name="fragment_b">Fragment B</string>
+</resources>
