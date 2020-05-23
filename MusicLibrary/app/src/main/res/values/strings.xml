@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Music Library</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="title_songs">Songs</string>
+    <string name="title_albums">Albums</string>
+    <string name="title_artist">Artist</string>
+    <string name="title_genres">Genres</string>
+    <string name="title_settings">Settings</string>
+</resources>
