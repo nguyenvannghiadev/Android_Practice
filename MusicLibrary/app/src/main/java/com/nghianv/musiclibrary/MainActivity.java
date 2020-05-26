@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nghianv.musiclibrary.adapter.ViewPagerAdapter;
+import com.nghianv.musiclibrary.listener.OnPlayMusic;
 import com.nghianv.musiclibrary.media.MediaManager;
 import com.nghianv.musiclibrary.model.Song;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		setOnclick();
 		mediaManager = MediaManager.getInstance(this);
 		MainActivity.this.runOnUiThread(runnable);
+		showLayoutFooter(false);
 	}
 
 	private void initView() {

@@ -50,10 +50,10 @@ public class SongFragment extends Fragment {
 
 	OnPlayMusic onPlayMusic = new OnPlayMusic() {
 		@Override
-		public void playSong(List<Song> list, int position) {
+		public void playSong(List<Song> list, int position, String dataPath) {
 			mainActivity.showLayoutFooter(true);
 			mainActivity.setInforLayoutFooter(list.get(position).getDisplayName(), list.get(position).getArtist());
-			mediaManager.playSong();
+			mediaManager.playMucsicByFilePath(dataPath);
 		}
 	};
 	//

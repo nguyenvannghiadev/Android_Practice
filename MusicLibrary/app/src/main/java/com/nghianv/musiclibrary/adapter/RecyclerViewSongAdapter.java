@@ -39,19 +39,14 @@ public class RecyclerViewSongAdapter extends RecyclerView.Adapter<RecyclerViewSo
 
 	@Override
 	public void onBindViewHolder(@NonNull SongViewHolder holder, final int position) {
-		Song song = mSongList.get(position);
+		final Song song = mSongList.get(position);
 		String nameSong = song.getDisplayName();
-//		if (nameSong.indexOf("_") > 0) {
-//			nameSong = nameSong.substring(0, nameSong.indexOf("_"));
-//		}
 		holder.nameSong.setText(nameSong);
 		holder.nameArtistSong.setText(song.getArtist());
 		holder.linearLayoutItemSong.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onPlayMusic.playSong(mSongList,position);
-				MediaManager.getInstance(context).setCurrentSongIndex(position);
-
+				onPlayMusic.playSong(mSongList,position, song.getDataPath());
 			}
 		});
 

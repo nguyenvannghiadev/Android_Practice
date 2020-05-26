@@ -19,6 +19,7 @@ import com.nghianv.musiclibrary.model.Artist;
 import com.nghianv.musiclibrary.model.Genres;
 import com.nghianv.musiclibrary.model.Song;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +57,17 @@ public class MediaManager {
 				mediaStatus = Const.STATUS_PLAYING;
 			}
 		});
+	}
+
+	public void playMucsicByFilePath(String dataPath) {
+		mediaPlayer.reset();
+		try {
+			mediaPlayer.setDataSource(dataPath);
+			mediaPlayer.prepare();
+			mediaPlayer.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void playSong() {
