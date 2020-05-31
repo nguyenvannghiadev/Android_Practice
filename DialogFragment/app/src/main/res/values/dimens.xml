@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_5_dp">5dp</dimen>
+    <dimen name="common_10_dp">10dp</dimen>
+    <dimen name="common_15_dp">15dp</dimen>
+    <dimen name="size_icon_search">48dp</dimen>
+    <dimen name="size_icon_request_ringtone">60dp</dimen>
+    <dimen name="radius_button">8dp</dimen>
+</resources>

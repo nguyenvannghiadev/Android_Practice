@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DialogFragment</string>
+    <string name="input">Nhap noi dung</string>
+    <string name="save">Luu</string>
+    <string name="creat_by_date">Creat by date</string>
+</resources>
