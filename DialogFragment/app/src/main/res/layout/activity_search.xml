@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/layout_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#4CAF50"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:hint="@string/search"
+            android:layout_toStartOf="@+id/img_close"
+            android:inputType="text"
+            android:textSize="20sp"
+            android:paddingStart="@dimen/common_10_dp"
+            android:background="@drawable/bg_input_request"
+            android:gravity="center|start"/>
+
+        <ImageView
+            android:id="@+id/img_close"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:padding="8dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_close" />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_topbar"
+        android:clickable="false"
+        android:layout_marginTop="@dimen/common_10_dp" />
+
+</RelativeLayout>

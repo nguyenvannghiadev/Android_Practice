@@ -1,5 +1,6 @@
 package com.nghianv.dialogfragment.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +14,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nghianv.dialogfragment.MainActivity;
 import com.nghianv.dialogfragment.R;
+import com.nghianv.dialogfragment.SearchActivity;
 import com.nghianv.dialogfragment.listener.RecyclerViewListener;
 import com.nghianv.dialogfragment.model.Job;
 
 import java.util.List;
 
 public class RecyclerViewNoteAdapter extends RecyclerView.Adapter<RecyclerViewNoteAdapter.JobHolder>{
-	private MainActivity context;
+	private Context context;
 	private List<Job> jobList;
 	private RecyclerViewListener recyclerViewListener;
 
-	public RecyclerViewNoteAdapter(MainActivity context, List<Job> jobList, RecyclerViewListener recyclerViewListener) {
+	public boolean isClickable = true;
+
+	public RecyclerViewNoteAdapter(Context context, List<Job> jobList, RecyclerViewListener recyclerViewListener) {
 		this.context = context;
 		this.jobList = jobList;
 		this.recyclerViewListener = recyclerViewListener;
+	}
+
+	public RecyclerViewNoteAdapter(Context context, List<Job> jobList) {
+		this.context = context;
+		this.jobList = jobList;
 	}
 
 	@NonNull
@@ -48,7 +57,9 @@ public class RecyclerViewNoteAdapter extends RecyclerView.Adapter<RecyclerViewNo
 		holder.layoutInfor.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(context, job.getNameJob(), Toast.LENGTH_SHORT).show();
+				if (!isClickable) {
+					return;
+				}
 				recyclerViewListener.updateJobListener(job.getNameJob(),job.getIdJob());
 			}
 		});
@@ -56,6 +67,9 @@ public class RecyclerViewNoteAdapter extends RecyclerView.Adapter<RecyclerViewNo
 		holder.layoutDelete.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (!isClickable) {
+					return;
+				}
 				recyclerViewListener.deleteJobListener(job.getNameJob(),job.getIdJob());
 
 			}

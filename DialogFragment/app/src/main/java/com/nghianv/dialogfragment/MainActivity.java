@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements DialogUpdateFragm
 	private final String TAG = "MainActivity";
 	public static final String BROADCAST_DATA_CHANGE = "dataChange";
 
-	private Database database;
-	private static String nameDatabase = "note.sqlite";
-	private static String nameTableDatabase = "Note";
+	public static Database database;
+	public static String nameDatabase = "note.sqlite";
+	public static String nameTableDatabase = "Note";
 
 	//
 	private List<Job> jobList;
@@ -95,6 +98,26 @@ public class MainActivity extends AppCompatActivity implements DialogUpdateFragm
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_search_jobs, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+		int viewId = item.getItemId();
+		switch (viewId) {
+			case R.id.menuAdd:
+				Intent intent = new Intent(this, SearchActivity.class);
+				startActivity(intent);
+				break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 	}
@@ -105,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements DialogUpdateFragm
 	}
 
 	public void getDataInDatabase() {
-		// select data
+		//
 		Cursor dataJob = database.getData("SELECT * FROM " + nameTableDatabase);
 		jobList.clear();
 		while (dataJob.moveToNext()) {
@@ -125,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements DialogUpdateFragm
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.e("TAG", "showDialogBoxFragment" + e);
+			Log.e(TAG, "showDialogBoxFragment" + e);
 		}
 	}
 
@@ -141,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements DialogUpdateFragm
 		database.queryData("INSERT INTO '" + nameTableDatabase + "' VALUES(null,'" + nameQuery + "','" + creatDay + "')");
 	}
 
-	private void insertDataInDataBase(String nameQuery, int Id) {
+	public void insertDataInDataBase(String nameQuery, int Id) {
 		Date date = new Date();
 		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
 		String creatDay = formatter.format(date);
@@ -156,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements DialogUpdateFragm
 		database.queryData("DELETE FROM " + nameTableDatabase + " WHERE Id = '" + Id + "'");
 	}
 
-	private void searchDataInDatabase(String nameSearch) {
+	public void searchDataInDatabase(String nameSearch) {
 		database.queryData("SELECT * FROM " + nameTableDatabase + " WHERE nameJob = '" + nameSearch + "'");
 	}
 
