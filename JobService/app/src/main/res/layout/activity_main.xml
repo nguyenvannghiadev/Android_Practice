@@ -7,14 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/start_job"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Shedule Job" />
-    <Button
         android:id="@+id/cance_job"
-        android:layout_below="@+id/start_job"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

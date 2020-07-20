@@ -24,6 +24,8 @@
             android:exported="true">
 
         </service>
+        <receiver android:name=".receiver.MyAlarmReceiver"
+            android:process=":remote"></receiver>
     </application>
 
 </manifest>
