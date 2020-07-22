@@ -39,47 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	}
 
 	public void scheduleJob() {
-
-		Intent intent = new Intent(getApplicationContext(), MyAlarmReceiver.class);
-		// Creat a PendingIntent to be triggered when the alarm goes off
-		final PendingIntent pIntent = PendingIntent.getBroadcast(this, MyAlarmReceiver.REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		//setup periotic alarm every every 2 minute from this point onwards
-		//show notify after 1minute
+		//alrmService
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		Calendar calendar = Calendar.getInstance();
-		int minute = calendar.get(Calendar.MINUTE);
-		if (minute > 1) {
-			return;
-		}
-		long delayMillis = (1 - minute) * 60 * 1000;
+		calendar.add(Calendar.SECOND, 15);
+		Intent intent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+		intent.addCategory("android.intent.category.DEFAULT");
+		PendingIntent broadcast = PendingIntent.getBroadcast(this, MyAlarmReceiver.REQUEST_CODE,intent , PendingIntent.FLAG_UPDATE_CURRENT);
+		alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),broadcast);
 
-		long firstMillis = System.currentTimeMillis();
-
-		long timeReopenMinute = firstMillis + DEFAULT_WATTING_SEND_NOTIFY * 1000;
-		AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-		// First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
-		// Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
-		if (alarmManager == null) {
-			return;
-		} else {
-			alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, delayMillis, pIntent);
-		}
-		long timeStartOpen = ObjectPeference.getInstance(this).getData(START_OPEN_TIME, 0l);
-		long timeReopen = System.currentTimeMillis() + DEFAULT_WATTING_SEND_NOTIFY * 60000L;
-		ComponentName componentName = new ComponentName(this, TestJobService.class);
-		JobInfo info = new JobInfo.Builder(JOB_ID, componentName)
-				.setRequiresCharging(true)
-				.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-				.setPersisted(true)
-				.setMinimumLatency(delayMillis)
-				.setOverrideDeadline(60000L)
-				.build();
-		JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-		int resultCode = scheduler.schedule(info);
-		if (resultCode == JobScheduler.RESULT_SUCCESS) {
-			Log.d(TAG, "Job scheduled");
-		} else {
-			Log.d(TAG, "Job scheduling failed");
-		}
 	}
 
 	public void canceJob(View view) {

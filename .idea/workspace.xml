@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e59f2e9f-dc5e-487e-95ff-4264f659f13d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/JobScheduleExample/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JobScheduleExample/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JobService/app/src/main/java/com/example/jobservice/NotificationActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JobService/app/src/main/res/layout/activity_notification.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JobScheduleExample" beforeDir="false" afterPath="$PROJECT_DIR$/JobScheduleExample" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JobScheduleExample/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/JobScheduleExample/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JobScheduleExample/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/JobScheduleExample/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JobScheduleExample/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/JobScheduleExample/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JobScheduleExample/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/JobScheduleExample/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JobService/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/JobService/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JobService/app/src/main/java/com/example/jobservice/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/JobService/app/src/main/java/com/example/jobservice/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JobService/app/src/main/java/com/example/jobservice/receiver/MyAlarmReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/JobService/app/src/main/java/com/example/jobservice/receiver/MyAlarmReceiver.java" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="209" />
+    <option name="y" value="72" />
+    <option name="width" value="1389" />
+    <option name="height" value="810" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e59f2e9f-dc5e-487e-95ff-4264f659f13d" name="Default Changelist" comment="" />
+      <created>1595381934410</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1595381934410</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.3295082" />
+      <window_info id="Structure" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="Resources Explorer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Captures" order="0" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Palette&#9;" />
+    </layout>
+  </component>
+</project>
