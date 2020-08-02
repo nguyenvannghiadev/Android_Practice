@@ -16,12 +16,11 @@ import com.nghianv.musiclibrary.R;
 import com.nghianv.musiclibrary.adapter.RecyclerViewArtistAdapter;
 import com.nghianv.musiclibrary.media.MediaManager;
 
-public class ArtistFragment extends Fragment {
+public class ArtistFragment extends BaseFragment {
 	private static final String TAG = "ArtistFragment";
 	private RecyclerViewArtistAdapter artistAdapter;
 	private RecyclerView rvArtist;
 	private static ArtistFragment artistFragment;
-	private MainActivity mainActivity;
 
 	public static ArtistFragment getInstance() {
 		if (artistFragment == null) {
@@ -33,9 +32,8 @@ public class ArtistFragment extends Fragment {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.mainActivity = (MainActivity) getActivity();
-		artistAdapter = new RecyclerViewArtistAdapter(mainActivity);
-		artistAdapter.setArtistList(MediaManager.getInstance(mainActivity).getAllArtist());
+		artistAdapter = new RecyclerViewArtistAdapter(activity);
+		artistAdapter.setArtistList(MediaManager.getInstance(activity).getAllArtist());
 	}
 
 	@Nullable

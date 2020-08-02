@@ -73,7 +73,10 @@ public class MediaManager {
 	public void playSong() {
 		if (mediaStatus == Const.STATUS_IDLE || mediaStatus == Const.STATUS_STOP) {
 			try {
-				mediaPlayer.reset();
+				mediaPlayer.stop();
+				if (mListSong == null) {
+					return;
+				}
 				Song song = mListSong.get(currentSongIndex);
 				mediaPlayer.setDataSource(song.getDataPath());
 				mediaPlayer.prepare();

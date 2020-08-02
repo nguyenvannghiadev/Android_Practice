@@ -1,0 +1,85 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.calllogs"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+11-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:5:5-72
+11-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:5:22-69
+12    <uses-permission android:name="android.permission.READ_CONTACTS" />
+12-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:6:5-72
+12-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:6:22-69
+13    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+13-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:7:5-77
+13-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:7:22-74
+14    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+14-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:8:5-74
+14-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:8:22-72
+15
+16    <application
+16-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:10:5-24:19
+17        android:allowBackup="true"
+17-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:11:9-35
+18        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+18-->[androidx.core:core:1.1.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:18-86
+19        android:debuggable="true"
+20        android:icon="@mipmap/ic_launcher"
+20-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:12:9-43
+21        android:label="@string/app_name"
+21-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:13:9-41
+22        android:roundIcon="@mipmap/ic_launcher_round"
+22-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:14:9-54
+23        android:supportsRtl="true"
+23-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:15:9-35
+24        android:testOnly="true"
+25        android:theme="@style/AppTheme" >
+25-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:16:9-40
+26        <activity android:name="com.example.calllogs.MainActivity" >
+26-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:17:9-23:20
+26-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:17:19-47
+27            <intent-filter>
+27-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:18:13-22:29
+28                <action android:name="android.intent.action.MAIN" />
+28-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:19:17-69
+28-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:19:25-66
+29
+30                <category android:name="android.intent.category.LAUNCHER" />
+30-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:21:17-77
+30-->C:\Android\on_tap\CallLogs\app\src\main\AndroidManifest.xml:21:27-74
+31            </intent-filter>
+32        </activity>
+33        <activity
+33-->[com.karumi:dexter:6.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\75dc700698cf3990d8a54784e55c8707\dexter-6.2.0\AndroidManifest.xml:27:9-29:72
+34            android:name="com.karumi.dexter.DexterActivity"
+34-->[com.karumi:dexter:6.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\75dc700698cf3990d8a54784e55c8707\dexter-6.2.0\AndroidManifest.xml:28:13-60
+35            android:theme="@style/Dexter.Internal.Theme.Transparent" />
+35-->[com.karumi:dexter:6.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\75dc700698cf3990d8a54784e55c8707\dexter-6.2.0\AndroidManifest.xml:29:13-69
+36
+37        <provider
+37-->[com.squareup.picasso:picasso:2.71828] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\9dd167f88610af19b63acbe703cac370\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
+38            android:name="com.squareup.picasso.PicassoProvider"
+38-->[com.squareup.picasso:picasso:2.71828] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\9dd167f88610af19b63acbe703cac370\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
+39            android:authorities="com.example.calllogs.com.squareup.picasso"
+39-->[com.squareup.picasso:picasso:2.71828] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\9dd167f88610af19b63acbe703cac370\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
+40            android:exported="false" />
+40-->[com.squareup.picasso:picasso:2.71828] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\9dd167f88610af19b63acbe703cac370\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
+41        <provider
+41-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:25:9-29:43
+42            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+42-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:26:13-79
+43            android:authorities="com.example.calllogs.lifecycle-process"
+43-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:27:13-69
+44            android:exported="false"
+44-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:28:13-37
+45            android:multiprocess="true" />
+45-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:29:13-40
+46    </application>
+47
+48</manifest>

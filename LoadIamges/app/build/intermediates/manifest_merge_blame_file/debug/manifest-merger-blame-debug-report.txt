@@ -1,0 +1,74 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.nghianv.loadiamges"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="19"
+8-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+11-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:5:5-81
+11-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:5:22-78
+12
+13    <application
+13-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:7:5-23:19
+14        android:allowBackup="true"
+14-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:9:9-35
+15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+15-->[androidx.core:core:1.1.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:18-86
+16        android:debuggable="true"
+17        android:icon="@mipmap/ic_launcher"
+17-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:10:9-43
+18        android:label="@string/app_name"
+18-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:11:9-41
+19        android:requestLegacyExternalStorage="true"
+19-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:8:9-52
+20        android:roundIcon="@mipmap/ic_launcher_round"
+20-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:12:9-54
+21        android:supportsRtl="true"
+21-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:13:9-35
+22        android:testOnly="true"
+23        android:theme="@style/AppTheme" >
+23-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:14:9-40
+24        <activity
+24-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:15:9-96
+25            android:name="com.nghianv.loadiamges.DetailActivity"
+25-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:15:19-49
+26            android:theme="@style/DetailTheme" />
+26-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:15:50-84
+27        <activity android:name="com.nghianv.loadiamges.MainActivity" >
+27-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:16:9-22:20
+27-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:16:19-47
+28            <intent-filter>
+28-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:17:13-21:29
+29                <action android:name="android.intent.action.MAIN" />
+29-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:18:17-69
+29-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:18:25-66
+30
+31                <category android:name="android.intent.category.LAUNCHER" />
+31-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:20:17-77
+31-->C:\Android\on_tap\LoadIamges\app\src\main\AndroidManifest.xml:20:27-74
+32            </intent-filter>
+33        </activity>
+34        <activity
+34-->[com.karumi:dexter:6.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\75dc700698cf3990d8a54784e55c8707\dexter-6.2.0\AndroidManifest.xml:27:9-29:72
+35            android:name="com.karumi.dexter.DexterActivity"
+35-->[com.karumi:dexter:6.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\75dc700698cf3990d8a54784e55c8707\dexter-6.2.0\AndroidManifest.xml:28:13-60
+36            android:theme="@style/Dexter.Internal.Theme.Transparent" />
+36-->[com.karumi:dexter:6.2.0] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\75dc700698cf3990d8a54784e55c8707\dexter-6.2.0\AndroidManifest.xml:29:13-69
+37
+38        <provider
+38-->[com.squareup.picasso:picasso:2.71828] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\9dd167f88610af19b63acbe703cac370\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
+39            android:name="com.squareup.picasso.PicassoProvider"
+39-->[com.squareup.picasso:picasso:2.71828] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\9dd167f88610af19b63acbe703cac370\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
+40            android:authorities="com.nghianv.loadiamges.com.squareup.picasso"
+40-->[com.squareup.picasso:picasso:2.71828] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\9dd167f88610af19b63acbe703cac370\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
+41            android:exported="false" />
+41-->[com.squareup.picasso:picasso:2.71828] C:\Users\Win10\.gradle\caches\transforms-2\files-2.1\9dd167f88610af19b63acbe703cac370\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
+42    </application>
+43
+44</manifest>

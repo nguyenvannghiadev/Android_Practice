@@ -34,16 +34,16 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 		// getItem is called to instantiate the fragment for the given page.
 		switch (position) {
 
+			case 0:
+				return SongFragment.getInstance();
 			case 1:
 				return AlbumFragment.getInstance();
 			case 2:
 				return ArtistFragment.getInstance();
 			case 3:
 				return GenresFragment.getInstance();
-			default:
-			case 0:
-				return SongFragment.getInstance();
 		}
+		return null;
 	}
 
 	@Nullable
