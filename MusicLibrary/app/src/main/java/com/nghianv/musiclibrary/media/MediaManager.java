@@ -43,7 +43,7 @@ public class MediaManager {
 		return mediaManager;
 	}
 
-	public MediaManager(Context mContext) {
+	private MediaManager(Context mContext) {
 		this.mContext = mContext;
 		initMediaPlayer();
 	}
@@ -60,6 +60,9 @@ public class MediaManager {
 	}
 
 	public void playMucsicByFilePath(String dataPath) {
+		if (mediaPlayer.isPlaying()) {
+			mediaPlayer.stop();
+		}
 		mediaPlayer.reset();
 		try {
 			mediaPlayer.setDataSource(dataPath);
@@ -73,7 +76,10 @@ public class MediaManager {
 	public void playSong() {
 		if (mediaStatus == Const.STATUS_IDLE || mediaStatus == Const.STATUS_STOP) {
 			try {
-				mediaPlayer.reset();
+				mediaPlayer.stop();
+				if (mListSong == null) {
+					return;
+				}
 				Song song = mListSong.get(currentSongIndex);
 				mediaPlayer.setDataSource(song.getDataPath());
 				mediaPlayer.prepare();
@@ -190,7 +196,7 @@ public class MediaManager {
 			}
 			cursor.close();
 		}
-		Log.d(">>>>>", "mListSongSize: " + mListSong.size());
+		Log.d(TAG, "mListSongSize: " + mListSong.size());
 		return mListSong;
 	}
 
@@ -233,7 +239,7 @@ public class MediaManager {
 			}
 			cursor.close();
 		}
-		Log.d(">>>>>", "mListAlbum: " + mListAlbum.size());
+		Log.d(TAG, "mListAlbum: " + mListAlbum.size());
 		return mListAlbum;
 	}
 
@@ -275,7 +281,7 @@ public class MediaManager {
 			}
 			cursor.close();
 		}
-		Log.d(">>>>>", "artirstList: " + artirstList.size());
+		Log.d(TAG, "artirstList: " + artirstList.size());
 		return artirstList;
 	}
 
@@ -311,7 +317,7 @@ public class MediaManager {
 			}
 			cursor.close();
 		}
-		Log.d(">>>>>", "genresList: " + genresList.size());
+		Log.d(TAG, "genresList: " + genresList.size());
 		return genresList;
 	}
 }

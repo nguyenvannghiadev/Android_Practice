@@ -23,12 +23,10 @@ import com.nghianv.musiclibrary.model.Song;
 import java.util.List;
 
 
-public class SongFragment extends Fragment {
+public class SongFragment extends BaseFragment {
 	private static final String TAG = "SongFragment";
 	private RecyclerViewSongAdapter songAdapter;
 	private RecyclerView rvSong;
-	private MainActivity mainActivity;
-	private MediaManager mediaManager;
 	//
 	private static SongFragment songFragment;
 
@@ -43,19 +41,8 @@ public class SongFragment extends Fragment {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.mainActivity = (MainActivity) getActivity();
-		mediaManager = MediaManager.getInstance(mainActivity);
-		songAdapter = new RecyclerViewSongAdapter(mainActivity, onPlayMusic);
+		songAdapter = new RecyclerViewSongAdapter(activity, onPlayMusic);
 	}
-
-	OnPlayMusic onPlayMusic = new OnPlayMusic() {
-		@Override
-		public void playSong(List<Song> list, int position, String dataPath) {
-			mainActivity.showLayoutFooter(true);
-			mainActivity.setInforLayoutFooter(list.get(position).getDisplayName(), list.get(position).getArtist());
-			mediaManager.playMucsicByFilePath(dataPath);
-		}
-	};
 	//
 	@Nullable
 	@Override

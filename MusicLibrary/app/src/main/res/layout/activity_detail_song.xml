@@ -73,7 +73,7 @@
         </LinearLayout>
 
         <SeekBar
-            android:id="@+id/sb_detail_time"
+            android:id="@+id/seekbar_detail_time"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
 
@@ -109,8 +109,7 @@
 
             <ImageView
                 android:id="@+id/img_loop"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                style="@style/style_icon_detail"
                 android:layout_toStartOf="@+id/img_previous"
                 android:importantForAccessibility="no"
                 android:padding="15dp"
@@ -118,8 +117,7 @@
 
             <ImageView
                 android:id="@+id/img_previous"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                style="@style/style_icon_detail"
                 android:layout_marginStart="5dp"
                 android:layout_toStartOf="@+id/img_play_pause"
                 android:importantForAccessibility="no"
@@ -129,9 +127,7 @@
 
             <ImageView
                 android:id="@+id/img_play_pause"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerHorizontal="true"
+                style="@style/style_icon_detail"
                 android:layout_marginLeft="@dimen/common_five_dp"
                 android:layout_marginRight="@dimen/common_five_dp"
                 android:importantForAccessibility="no"
@@ -140,9 +136,7 @@
 
             <ImageView
                 android:id="@+id/img_next"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerHorizontal="true"
+                style="@style/style_icon_detail"
                 android:layout_marginEnd="@dimen/common_five_dp"
                 android:layout_toEndOf="@+id/img_play_pause"
                 android:importantForAccessibility="no"
@@ -152,9 +146,7 @@
 
             <ImageView
                 android:id="@+id/img_shuffle"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerHorizontal="true"
+                style="@style/style_icon_detail"
                 android:layout_marginStart="@dimen/common_five_dp"
                 android:layout_toEndOf="@+id/img_next"
                 android:importantForAccessibility="no"

@@ -14,11 +14,10 @@ import com.nghianv.musiclibrary.MainActivity;
 import com.nghianv.musiclibrary.R;
 import com.nghianv.musiclibrary.adapter.AlbumAdapter;
 
-public class AlbumFragment extends Fragment {
+public class AlbumFragment extends BaseFragment {
 	private static final String TAG = "AlbumFragment";
 	private AlbumAdapter albumAdapter;
 	private GridView gridView;
-	private MainActivity mainActivity;
 	//
 	private static AlbumFragment albumFragment;
 
@@ -32,8 +31,7 @@ public class AlbumFragment extends Fragment {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.mainActivity = (MainActivity) getActivity();
-		albumAdapter = new AlbumAdapter(mainActivity);
+		albumAdapter = new AlbumAdapter(activity);
 	}
 
 	//

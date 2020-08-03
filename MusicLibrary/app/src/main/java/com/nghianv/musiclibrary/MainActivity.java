@@ -1,5 +1,6 @@
 package com.nghianv.musiclibrary;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
@@ -8,16 +9,20 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.nghianv.musiclibrary.adapter.RecyclerViewSongAdapter;
 import com.nghianv.musiclibrary.adapter.ViewPagerAdapter;
 import com.nghianv.musiclibrary.listener.OnPlayMusic;
 import com.nghianv.musiclibrary.media.MediaManager;
@@ -25,7 +30,11 @@ import com.nghianv.musiclibrary.model.Song;
 
 import java.util.List;
 
+import static com.nghianv.musiclibrary.DetailActivity.keyPositionSong;
+import static com.nghianv.musiclibrary.DetailActivity.keySong;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+	private static final String TAG = "MainActivity";
 	private ViewPager viewPager;
 	private DrawerLayout drawer;
 	private NavigationView navigationView;
@@ -36,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	private LinearLayout layoutTitleSong;
 	private ImageView imgIConSong, imgPausePlay;
 	private TextView tvTitleSong, tvArtistName;
+	public Song song;
+	public int currentPlaySong;
+
+	protected RecyclerView recyclerView;
 
 	private Handler handler = new Handler();
 
@@ -95,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		switch (v.getId()) {
 			case R.id.imv_image_song:
 			case R.id.layout_title_song:
+				goToDetailActivity(song,true, currentPlaySong);
 				break;
 			case R.id.img_pause_play_footer:
 				mediaManager.playSong();
@@ -161,6 +175,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			viewLayoutFooter.setVisibility(View.VISIBLE);
 		} else {
 			viewLayoutFooter.setVisibility(View.GONE);
+		}
+	}
+	protected void goToDetailActivity(Song song, boolean isPlay, int position) {
+		//Go to Detail screen
+		if (mediaManager.getMediaPlayer().isPlaying()) {
+			mediaManager.getMediaPlayer().stop();
+		}
+		Intent intent = new Intent(this, DetailActivity.class);
+		String toRingtone = new Gson().toJson(song);
+		intent.putExtra(keySong, toRingtone);
+		intent.putExtra(keyPositionSong, position);
+		intent.putExtra("isPlay", isPlay);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+		try {
+			if (recyclerView != null) {
+				RecyclerViewSongAdapter songAdapter = (RecyclerViewSongAdapter) recyclerView.getAdapter();
+				if (songAdapter != null) {
+				}
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "goToDetailActivity: " + e);
 		}
 	}
 

@@ -1,5 +1,9 @@
 package com.nghianv.musiclibrary.common;
 
+import com.nghianv.musiclibrary.model.Song;
+
+import java.util.List;
+
 public class Const {
 	//Key of Mediaplayer
 	public static int STATUS_IDLE = 1;
