@@ -13,7 +13,7 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-import com.nghianv.musiclibrary.common.Const;
+import com.nghianv.musiclibrary.common.Common;
 import com.nghianv.musiclibrary.model.Album;
 import com.nghianv.musiclibrary.model.Artist;
 import com.nghianv.musiclibrary.model.Genres;
@@ -33,7 +33,7 @@ public class MediaManager {
 	//this is current song play.
 	private int currentSongIndex = 0;
 	//this is state of mediaplayer
-	private int mediaStatus = Const.STATUS_IDLE;
+	private int mediaStatus = Common.STATUS_IDLE;
 	private static MediaManager mediaManager;
 
 	public static MediaManager getInstance(Context context) {
@@ -54,7 +54,7 @@ public class MediaManager {
 			@Override
 			public void onPrepared(MediaPlayer mp) {
 				mp.start();
-				mediaStatus = Const.STATUS_PLAYING;
+				mediaStatus = Common.STATUS_PLAYING;
 			}
 		});
 	}
@@ -73,8 +73,29 @@ public class MediaManager {
 		}
 	}
 
+	public void playSong(int currentSongIndex) {
+//		if (mediaPlayer.isPlaying()) {
+//			mediaPlayer.stop();
+//		}
+		Song song = mListSong.get(currentSongIndex);
+		try {
+			mediaPlayer.setDataSource(song.getDataPath());
+			mediaPlayer.prepare();
+			mediaPlayer.start();
+			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+					mediaPlayer.release();
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public void playSong() {
-		if (mediaStatus == Const.STATUS_IDLE || mediaStatus == Const.STATUS_STOP) {
+		if (mediaStatus == Common.STATUS_IDLE || mediaStatus == Common.STATUS_STOP) {
 			try {
 				mediaPlayer.stop();
 				if (mListSong == null) {
@@ -86,26 +107,26 @@ public class MediaManager {
 				mediaPlayer.start();
 
 				//
-				mediaStatus = Const.STATUS_PLAYING;
+				mediaStatus = Common.STATUS_PLAYING;
 			} catch (Exception e) {
 				e.printStackTrace();
 				Log.e(TAG, "playSong(): " + e);
 			}
-		} else if (mediaStatus == Const.STATUS_PAUSE) {
+		} else if (mediaStatus == Common.STATUS_PAUSE) {
 			mediaPlayer.start();
-			mediaStatus = Const.STATUS_PLAYING;
-		} else if (mediaStatus == Const.STATUS_PLAYING) {
+			mediaStatus = Common.STATUS_PLAYING;
+		} else if (mediaStatus == Common.STATUS_PLAYING) {
 			mediaPlayer.pause();
-			mediaStatus = Const.STATUS_PAUSE;
+			mediaStatus = Common.STATUS_PAUSE;
 		}
 	}
 
 	public void stop() {
-		if (mediaStatus == Const.STATUS_IDLE) {
+		if (mediaStatus == Common.STATUS_IDLE) {
 			return;
 		}
 		mediaPlayer.stop();
-		mediaStatus = Const.STATUS_STOP;
+		mediaStatus = Common.STATUS_STOP;
 	}
 
 	public void next() {
@@ -114,7 +135,7 @@ public class MediaManager {
 		} else {
 			currentSongIndex++;
 		}
-		playSong();
+		playSong(currentSongIndex);
 	}
 
 	public void previous() {
@@ -123,7 +144,7 @@ public class MediaManager {
 		} else {
 			currentSongIndex--;
 		}
-		playSong();
+		playSong(currentSongIndex);
 	}
 
 	public List<Song> getmListSong() {

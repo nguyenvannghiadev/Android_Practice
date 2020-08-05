@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.nghianv.musiclibrary.MainActivity;
+import com.nghianv.musiclibrary.common.Common;
 import com.nghianv.musiclibrary.listener.OnPlayMusic;
 import com.nghianv.musiclibrary.media.MediaManager;
 import com.nghianv.musiclibrary.model.Song;
@@ -34,6 +35,7 @@ public abstract class BaseFragment extends Fragment {
 			mediaManager.playMucsicByFilePath(dataPath);
 			activity.currentPlaySong = position;
 			activity.song = list.get(position);
+			Common.getInstance().setListSongDetail(list);
 		}
 	};
 

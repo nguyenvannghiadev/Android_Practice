@@ -2,17 +2,6 @@ package com.nghianv.musiclibrary;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,10 +10,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.nghianv.musiclibrary.adapter.RecyclerViewSongAdapter;
 import com.nghianv.musiclibrary.adapter.ViewPagerAdapter;
-import com.nghianv.musiclibrary.listener.OnPlayMusic;
 import com.nghianv.musiclibrary.media.MediaManager;
 import com.nghianv.musiclibrary.model.Song;
 
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		switch (v.getId()) {
 			case R.id.imv_image_song:
 			case R.id.layout_title_song:
-				goToDetailActivity(song,true, currentPlaySong);
+				goToDetailActivity(song, true, currentPlaySong);
 				break;
 			case R.id.img_pause_play_footer:
 				mediaManager.playSong();
@@ -177,11 +174,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			viewLayoutFooter.setVisibility(View.GONE);
 		}
 	}
+
 	protected void goToDetailActivity(Song song, boolean isPlay, int position) {
+		mediaManager.getMediaPlayer().stop();
+		mediaManager.getMediaPlayer().reset();
 		//Go to Detail screen
-		if (mediaManager.getMediaPlayer().isPlaying()) {
-			mediaManager.getMediaPlayer().stop();
-		}
 		Intent intent = new Intent(this, DetailActivity.class);
 		String toRingtone = new Gson().toJson(song);
 		intent.putExtra(keySong, toRingtone);

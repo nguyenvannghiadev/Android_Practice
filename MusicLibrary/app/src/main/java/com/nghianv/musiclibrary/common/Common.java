@@ -4,7 +4,15 @@ import com.nghianv.musiclibrary.model.Song;
 
 import java.util.List;
 
-public class Const {
+public class Common {
+	private static Common sInstance;
+
+	public static Common getInstance() {
+		if (sInstance == null) {
+			sInstance = new Common();
+		}
+		return sInstance;
+	}
 	//Key of Mediaplayer
 	public static int STATUS_IDLE = 1;
 	public static int STATUS_PLAYING = 2;
@@ -17,4 +25,14 @@ public class Const {
 	public static final String KEY_ALBUM_ARTIST = "KEY_ALBUM_ARTIST";
 	public static final String KEY_ID_ARTIST = "KEY_ID_ARTIST";
 	public static final String KEY_NAME_ARTIST = "KEY_NAME_ARTIST";
+
+	private List<Song> listSongDetail;
+
+	public List<Song> getListSongDetail() {
+		return listSongDetail;
+	}
+
+	public void setListSongDetail(List<Song> listSongDetail) {
+		this.listSongDetail = listSongDetail;
+	}
 }
