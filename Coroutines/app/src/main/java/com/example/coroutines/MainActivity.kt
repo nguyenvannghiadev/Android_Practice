@@ -1,12 +1,10 @@
 package com.example.coroutines
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
+import kotlin.system.measureTimeMillis
 import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
 
 class MainActivity : AppCompatActivity() {
 	@ExperimentalTime
@@ -16,7 +14,125 @@ class MainActivity : AppCompatActivity() {
 		//
 		//sayHello()
 		//printHello()
-		mainOne()
+		//mainOne()
+		//mainTwo()
+		//mainThree()
+		//mainFour()
+		//mainFive()
+		//mainSix()
+		mainSeven()
+		main8()
+
+	}
+
+	private fun main8() = runBlocking {
+		val time2 = measureTimeMillis {
+			val one = async { printlnOne() }
+			val two = async { printlnTwo() }
+			println("The answer is ${one.await() + two.await()}")
+		}
+		println("Oncomplete 2 in $time2 s")
+	}
+
+	private fun mainSeven() = runBlocking<Unit> {
+		val time = measureTimeMillis {
+			val one = printlnOne()
+			val two = printlnTwo()
+			println("The answer is ${one + two}")
+
+		}
+		println("Complete in $time s")
+
+	}
+
+	suspend fun printlnOne(): Int {
+		delay(1000L)
+		return 10
+	}
+
+	suspend fun printlnTwo(): Int {
+		delay(2000L)
+		return 20
+	}
+
+
+	private fun mainSix() = runBlocking {
+		val job = launch {
+			try {
+				repeat(1000) { i ->
+					println("I'm sleeping $i.....")
+					delay(500L)
+
+				}
+			}finally {
+			    // tranh thu close resource nay di
+				println("I'm running finally")
+			}
+		}
+		delay(1300L)
+		println("main: I'm tired of waitting")
+		job.cancel()
+		println("main: Now, I can quit")
+	}
+
+	private fun mainFive() = runBlocking {
+		launch(Dispatchers.Unconfined){
+			println("Unconfined: I'm working in thread ${Thread.currentThread().name}")
+			delay(1000L)
+			println("unconfined: After delay in thread ${Thread.currentThread().name}")
+		}
+	}
+
+	private fun mainFour() = runBlocking<Unit> {
+		launch(Dispatchers.Unconfined) {
+			println("Unconfined: I'm working in theard ${Thread.currentThread().name}")
+		}
+
+		launch(Dispatchers.Default){
+			println("Default: I'm working in thread ${Thread.currentThread().name}")
+		}
+
+		launch(newSingleThreadContext("MyOwnThread")){
+			println("newSingleThreadContext: I'm working in thread ${Thread.currentThread().name}" )
+		}
+
+	}
+
+	private fun mainThree() {
+		GlobalScope.launch(Dispatchers.IO) {
+
+			// Do background task
+			withContext(Dispatchers.Main){
+				// Update UI
+			}
+
+		}
+	}
+
+	private fun mainTwo() {
+		newSingleThreadContext("thread1").use { ctx1 ->
+			println("ctx1 - ${Thread.currentThread().name}")
+
+			newSingleThreadContext("thread2").use { ctx2 ->
+				println("ctx2 - ${Thread.currentThread().name}")
+
+				//bat dau chay coroutines voi context la ctx1
+				runBlocking(ctx1) {
+					//coroutines dang chay tren context ctx1 va thread thread1
+					println("Start in ctx1 - ${Thread.currentThread().name}")
+					//su dung ham withContext de chuyen doi context tu ctx1 -> ctx2
+					withContext(ctx2) {
+						// coroutines dang chay voi context ctx2 va tren thread2
+						println("Working in ctx2 - ${Thread.currentThread().name}")
+						// coroutine đã thoát ra block withContext nên sẽ chạy lại với context ctx1 và trên thread thread1
+						println("Back to ctx1 - ${Thread.currentThread().name}")
+
+					}
+				}
+			}
+			println("Out to ctx2 block -${Thread.currentThread().name}")
+		}
+		println("Out to ctx1 block -${Thread.currentThread().name}")
 	}
 
 	private fun sayHello() = runBlocking {
