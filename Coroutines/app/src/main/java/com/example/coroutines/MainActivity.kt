@@ -1,12 +1,18 @@
 package com.example.coroutines
 
 import android.os.Bundle
+import android.os.strictmode.SqliteObjectLeakedViolation
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlin.IndexOutOfBoundsException
 import kotlin.system.measureTimeMillis
 import kotlin.time.ExperimentalTime
 
 class MainActivity : AppCompatActivity() {
+	@FlowPreview
 	@ExperimentalTime
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -20,8 +26,154 @@ class MainActivity : AppCompatActivity() {
 		//mainFour()
 		//mainFive()
 		//mainSix()
-		mainSeven()
-		main8()
+		//mainSeven()
+		//main8()
+		//main9()
+		//main10()
+		//main11()
+		//main12()
+		//main13()
+		//main14()
+		main15()
+	}
+
+	@FlowPreview
+	fun main15() = runBlocking<Unit> {
+		println("Calling foo ...")
+		val flow = foo2()
+		println("Calling collect....")
+		flow.collect { value -> println(value) }
+		println("Calling collect again....")
+		flow.collect { value -> println(value)  }
+	}
+
+	@FlowPreview
+	fun foo2(): Flow<Int> = flow {
+		// flow buider
+		println("Flow started")
+		for (i in 1..3) {
+			delay(100)
+			emit(i) //emit next value
+		}
+	}
+
+	@FlowPreview
+	fun main14() = runBlocking {
+		// Launch a concurrent coroutine to check if the main thread is blocked
+		launch {
+			println(Thread.currentThread().name)
+			for (k in 1..3) {
+				delay(900)
+				println("I'm not blocked $k")
+			}
+		}
+		val a = measureTimeMillis {
+			foo2().collect { value -> println(value) }
+		}
+		println("$a s")
+	}
+
+	fun foo(): Sequence<Int> = sequence { // sequence builder
+		for (i in 1..3) {
+			Thread.sleep(1000)
+			yield(i) // yield next value
+		}
+	}
+
+	fun main13() = runBlocking {
+		// lauch a concurrent coroutine to check if the main thread is blocked
+		launch {
+			println(Thread.currentThread().name)
+			for (k in 1..3) {
+				delay(1000)
+				println("I'm blocked $k")
+			}
+		}
+		val time = measureTimeMillis {
+			foo().forEach { value -> println(value) }
+		}
+		println("$time s")
+	}
+
+	fun main12() = runBlocking {
+		GlobalScope.launch {
+			try {
+				println("Throwing exception from lauch")
+				throw IndexOutOfBoundsException()
+				println("Unreached")
+			} catch (e: java.lang.IndexOutOfBoundsException) {
+				println("Caught IndexOutOfBoundsException")
+			}
+		}
+
+		val deferred = GlobalScope.async {
+			println("Throwing exception from sync")
+			throw ArithmeticException()
+			println("Unreached")
+		}
+		try {
+			deferred.await()
+			println("Unreached")
+		} catch (e: java.lang.ArithmeticException) {
+			println("Caught ArithmeticException")
+		}
+	}
+
+
+	fun main11() = runBlocking<Unit> {
+		val request = launch {
+			// it spawns two other jobs, one with GlobalScope
+			GlobalScope.launch {
+				println("job1: GlobalScope and execute independently!")
+				delay(1000)
+				println("job1: I am not affected by cancellation") // line code 1
+			}
+			// and the other inherits the parent context
+			launch {
+				delay(1000)
+				println("job2: I am a child of the request coroutine")
+				delay(1000)
+				println("job2 : I will not execute this line if my parent request is cancelled")
+			}
+		}
+		delay(500)
+		request.cancel()
+		delay(1000)
+		println("main: Who has survived request cancellation?")
+	}
+
+	fun main10() = runBlocking<Unit> {
+		val request = launch {
+			launch {
+				delay(100L)
+				println("job2: I am a child of the request coroutine") // line code 1
+				delay(1000L)
+				println("job2: I will not execute this line if my parent request is cancelled") // line code 2
+			}
+		}
+		delay(500)
+		request.cancel()
+		delay(1000L)
+		println("main: Who has survived request cancellation?") // line code 3
+	}
+
+	fun main9() = runBlocking { // scope 1
+		launch { // coroutine 1
+			delay(200L)
+			println("Task from runBlocking")  //line code 1
+		}
+
+		coroutineScope { // coroutine 2    // scope 2
+			launch { // coroutine 3
+				delay(500L)
+				println("Task from nested launch") // line code 2
+			}
+
+			delay(100L)
+			println("Task from coroutine scope") // line code 3
+		}
+
+		println("Coroutine scope is over") // line code 4
 
 	}
 
