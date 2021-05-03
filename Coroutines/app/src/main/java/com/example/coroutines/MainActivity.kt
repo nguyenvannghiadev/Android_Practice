@@ -1,12 +1,9 @@
 package com.example.coroutines
 
 import android.os.Bundle
-import android.os.strictmode.SqliteObjectLeakedViolation
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlin.IndexOutOfBoundsException
 import kotlin.system.measureTimeMillis
 import kotlin.time.ExperimentalTime
@@ -34,7 +31,244 @@ class MainActivity : AppCompatActivity() {
 		//main12()
 		//main13()
 		//main14()
-		main15()
+		//main15()
+		//main16()
+		//main17()
+		//main18()
+		//main19()
+		//main20()
+		//main21()
+		//main22()
+		//main23()
+		//main24()
+		//main25()
+		//main26()
+		//main27()
+		//main28()
+		//main29()
+		//main30()
+		//main31()
+		//main32()
+		//main33()
+		main34()
+	}
+
+	@FlowPreview
+	fun foo5(): Flow<Int> = flow {
+		for (i in 1..3) {
+			Thread.sleep(100)
+			log("Emitting $i")
+			emit(i) // emit next value
+		}
+	}.flowOn(Dispatchers.Default)
+
+	@FlowPreview
+	fun main34() = runBlocking {
+		foo5().collect { value -> log("Collected $value")  }
+	}
+
+	fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
+
+	@FlowPreview
+	fun foo4(): Flow<Int> = flow {
+		log("Started foo flow")
+		for (i in 1..3) {
+			emit(i) // nguon phat
+		}
+	}
+
+	@FlowPreview
+	fun main33() = runBlocking {
+		foo4().collect { value -> log("Collect $value")  }
+	}
+
+	@FlowPreview
+	fun main32() = runBlocking<Unit> {
+		val startTime = System.currentTimeMillis()
+		// Duoi day la flowA
+		(1..3).asFlow().onEach { delay(100) }
+				.flatMapMerge { requestFlow(it) }
+				.collect { value ->
+					println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+				}
+	}
+
+	@FlowPreview
+	fun main31() = runBlocking<Unit> {
+		val startTime = System.currentTimeMillis()
+		// Duoi day la flowA
+		(1..3).asFlow().onEach { delay(100) }
+				.flatMapConcat { requestFlow(it) }
+				.collect { value ->
+					println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+				}
+	}
+
+	@FlowPreview
+	fun requestFlow(i: Int): Flow<String> = flow {
+		emit("$i: First")
+		delay(500)
+		emit("$i: Second")
+	}
+
+	@FlowPreview
+	fun main30() = runBlocking {
+		val nums = (1..3).asFlow().onEach { delay(300) }
+		val strs = flowOf("one", "two", "three").onEach { delay(400) }
+		val startTime = System.currentTimeMillis()
+		nums.combineLatest(strs){a, b -> "$a -> $b"}
+				.collect { value ->
+					println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+				}
+	}
+
+	@FlowPreview
+	fun main29() = runBlocking {
+		val nums = (1..3).asFlow().onEach { delay(300) }
+		val strings = flowOf("one", "two", "three").onEach { delay(400) }
+		val startTime = System.currentTimeMillis()
+		nums.zip(strings){a, b -> "$a -> $b"}
+				.collect { value ->
+					println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+				}
+	}
+
+	@FlowPreview
+	fun main28() = runBlocking {
+		val nums = (1..3).asFlow()
+		val strs = flowOf("one", "two", "three")
+		nums.zip(strs){a, b -> "$a -> $b"} // compose a single string
+				.collect { println(it) }
+	}
+
+	// Toan tu toList, toSet giup convert 1 flow thanh 1 ArrayList hoac LinkedHashSet
+	@FlowPreview
+	fun main27() = runBlocking {
+		val list: List<String> = listOf("a", "b", "c", "d", "e").asFlow().toList()
+		val set: Set<Int> = (1..5).asFlow().toSet()
+		println("${list.javaClass} $list")
+		println("${set.javaClass} $set")
+	}
+
+	@FlowPreview
+	fun main26() = runBlocking {
+		val sum = (1..3).asFlow()
+				.fold(initial = 10){a, b ->
+					println("Tong da tich luy: $a dong")
+					println("Gia tri moi: $b dong")
+					a + b
+				}
+		println("Ket qua = $sum dong")
+	}
+
+	@FlowPreview
+	fun main25() = runBlocking {
+		val sum = listOf("a", "b", "c", "d", "e").asFlow()
+				.reduce({a, b ->
+					println("Tong da tich luy: $a")
+					println("Gia tri moi: $b")
+					a + b
+				})
+		println("Ket qua : $sum")
+	}
+
+
+	@FlowPreview
+	fun main24() = runBlocking {
+		val sum = (1..3).asFlow()
+				.map { it * it } //squares of numbers from 1 to 3
+				.reduce ({a, b -> a + b})
+		println(sum)
+	}
+
+	@FlowPreview
+	fun main23() = runBlocking {
+		val nums = (1..3).asFlow().onEach { delay(3000) }
+		val startTime = System.currentTimeMillis()
+		nums.collect { value ->
+			println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+		}
+	}
+
+	@FlowPreview
+	fun main22() = runBlocking {
+		(1..5).asFlow()
+				.filter {
+					println("Filter $it")
+					it % 2 == 0
+				}.collect {
+					println("Collect $it")
+				}
+	}
+
+	@FlowPreview
+	fun main21() = runBlocking {
+		(1..3).asFlow()
+				.map { it * it } // squares of numbers from 1 to 3
+				.collect { println(it) }
+	}
+
+	@FlowPreview
+	fun main20() = runBlocking {
+		(1..9).asFlow() // a flow of request
+				.transform { value ->
+					if (value % 2 == 0) {
+						emit(value * value)
+						emit(value * value * value)
+					} // Do nothing if odd
+				}
+				.collect { response -> println(response) }
+	}
+
+	@FlowPreview
+	fun numbers(): Flow<Int> = flow {
+		try {
+			emit(1)
+			println("This line will not execute")
+			emit(2)
+			emit(3)
+		} catch (e: CancellationException) {
+			println("exception")
+		} finally {
+			println("Close resource here")
+		}
+	}
+
+	@FlowPreview
+	fun main19() = runBlocking {
+		numbers()
+				.take(2) // take only the first two
+				.collect { value -> println(value)  }
+	}
+
+	@FlowPreview
+	fun main18() = runBlocking {
+		listOf(1, "abcd", 3, "efgh").asFlow().collect { println(it) }
+	}
+
+	@FlowPreview
+	fun main17() = runBlocking {
+		val data = flowOf(1, "abc", 3, "def")
+		data.collect { println(it) }
+	}
+
+	@FlowPreview
+	fun foo3(): Flow<Int> = flow {
+		for (i in 1..3) {
+			delay(2000)
+			//Thread.sleep(2000)
+			println("Emitting $i")
+			emit(i)
+		}
+
+	}
+
+	@FlowPreview
+	fun main16() = runBlocking {
+		withTimeoutOrNull(5000) {
+			foo3().collect { value -> println(value) }
+		}
+		println("Done")
 	}
 
 	@FlowPreview
@@ -44,7 +278,7 @@ class MainActivity : AppCompatActivity() {
 		println("Calling collect....")
 		flow.collect { value -> println(value) }
 		println("Calling collect again....")
-		flow.collect { value -> println(value)  }
+		flow.collect { value -> println(value) }
 	}
 
 	@FlowPreview
@@ -216,8 +450,8 @@ class MainActivity : AppCompatActivity() {
 					delay(500L)
 
 				}
-			}finally {
-			    // tranh thu close resource nay di
+			} finally {
+				// tranh thu close resource nay di
 				println("I'm running finally")
 			}
 		}
@@ -228,7 +462,7 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun mainFive() = runBlocking {
-		launch(Dispatchers.Unconfined){
+		launch(Dispatchers.Unconfined) {
 			println("Unconfined: I'm working in thread ${Thread.currentThread().name}")
 			delay(1000L)
 			println("unconfined: After delay in thread ${Thread.currentThread().name}")
@@ -240,12 +474,12 @@ class MainActivity : AppCompatActivity() {
 			println("Unconfined: I'm working in theard ${Thread.currentThread().name}")
 		}
 
-		launch(Dispatchers.Default){
+		launch(Dispatchers.Default) {
 			println("Default: I'm working in thread ${Thread.currentThread().name}")
 		}
 
-		launch(newSingleThreadContext("MyOwnThread")){
-			println("newSingleThreadContext: I'm working in thread ${Thread.currentThread().name}" )
+		launch(newSingleThreadContext("MyOwnThread")) {
+			println("newSingleThreadContext: I'm working in thread ${Thread.currentThread().name}")
 		}
 
 	}
@@ -254,7 +488,7 @@ class MainActivity : AppCompatActivity() {
 		GlobalScope.launch(Dispatchers.IO) {
 
 			// Do background task
-			withContext(Dispatchers.Main){
+			withContext(Dispatchers.Main) {
 				// Update UI
 			}
 
@@ -313,7 +547,7 @@ class MainActivity : AppCompatActivity() {
 
 	fun mainOne() = runBlocking {
 		val startTime = System.currentTimeMillis()
-		val job = launch(Dispatchers.Default){
+		val job = launch(Dispatchers.Default) {
 			var nextPrintTime = startTime
 			var i = 0
 			while (isActive) { // Dieu kien i < 5 duoc thay bang isActive de ngan chan coroutine khi no bi huy
