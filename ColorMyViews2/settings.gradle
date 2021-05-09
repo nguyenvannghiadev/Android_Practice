@@ -1,0 +1,2 @@
+rootProject.name = "ColorMyViews2"
+include ':app'
