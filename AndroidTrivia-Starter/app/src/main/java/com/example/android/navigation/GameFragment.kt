@@ -100,12 +100,19 @@ class GameFragment : Fragment() {
                         binding.invalidateAll()
                     } else {
                         // We've won!  Navigate to the gameWonFragment.
-                        view.findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
+                        // 1. use navigation id
+                       // view.findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
+
+                        // 2. Using directions to navigate to the GameWonFragment (Bunder safe ags transition)
+                        view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameWonFragment(numQuestions, questionIndex))
                     }
                 } else {
                     // Game over! A wrong answer sends us to the gameOverFragment.
 
-                    view.findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
+                    //view.findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
+
+                    // 2. Using directions to navigate to the GameWonFragment (Bunder safe ags transition)
+                    view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameOverFragment())
                 }
             }
         }
