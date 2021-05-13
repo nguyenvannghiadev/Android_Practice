@@ -82,7 +82,7 @@ class GameFragment : Fragment() {
     private fun gameFinished() {
         Toast.makeText(activity, "Game has just finished", Toast.LENGTH_SHORT).show()
         val actione = GameFragmentDirections.actionGameToScore()
-        actione.score = viewModel.score
+        actione.score = viewModel.score.value ?: 0
         NavHostFragment.findNavController(this).navigate(actione)
     }
 
@@ -90,10 +90,10 @@ class GameFragment : Fragment() {
     /** Methods for updating the UI **/
 
     private fun updateWordText() {
-        binding.wordText.text = viewModel.word
+        binding.wordText.text = viewModel.word.value
     }
 
     private fun updateScoreText() {
-        binding.scoreText.text = viewModel.score.toString()
+        binding.scoreText.text = viewModel.score.value.toString()
     }
 }
