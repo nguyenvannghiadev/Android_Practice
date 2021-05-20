@@ -17,10 +17,7 @@
 package com.example.android.trackmysleepquality.sleeptracker
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.android.trackmysleepquality.database.SleepDatabaseDao
 import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.formatNights
@@ -35,12 +32,16 @@ class SleepTrackerViewModel(
 ) : AndroidViewModel(application) {
 
     private val nights = database.getAllNights()
-    val nightsString = Transformations.map(nights){ nights ->
+    val nightsString = Transformations.map(nights) { nights ->
         formatNights(nights, application.resources)
 
     }
 
     private val tonight = MutableLiveData<SleepNight?>()
+
+    private val _navigateToSleepQuality = MutableLiveData<SleepNight>()
+    val navigateToSleepQuality: LiveData<SleepNight>
+        get() = _navigateToSleepQuality
 
     // Khoi init khoi tao gia tri phai duoi khai bao bien
     init {
@@ -50,6 +51,24 @@ class SleepTrackerViewModel(
     fun initializeTonight() {
         viewModelScope.launch {
             tonight.value = getTonightFromDatabase()
+        }
+    }
+    //
+    private suspend fun insertItem(newNight: SleepNight) {
+        withContext(Dispatchers.IO) {
+            database.insert(newNight)
+        }
+    }
+
+    private suspend fun updateItem(night: SleepNight) {
+        withContext(Dispatchers.IO) {
+            database.update(night)
+        }
+    }
+
+    private suspend fun clearData() {
+        withContext(Dispatchers.IO) {
+            database.clear()
         }
     }
 
@@ -63,6 +82,12 @@ class SleepTrackerViewModel(
         }
     }
 
+    //
+    fun doneNavigating() {
+        _navigateToSleepQuality.value = null
+    }
+
+
     fun onStartTracking() {
         viewModelScope.launch {
             val newNight = SleepNight()
@@ -70,11 +95,25 @@ class SleepTrackerViewModel(
             tonight.value = getTonightFromDatabase()
         }
     }
-   private suspend fun insertItem(newNight: SleepNight) {
-       withContext(Dispatchers.IO){
-           database.insert(newNight)
-       }
-   }
+
+
+    fun onStopTracking() {
+        viewModelScope.launch {
+            val oldNight = tonight.value ?: return@launch
+            oldNight.endTimeMilli = System.currentTimeMillis()
+            updateItem(oldNight)
+
+            // Set state to navigate to the SleepQualityFragment.
+            _navigateToSleepQuality.value = oldNight
+        }
+    }
+
+    fun onClear() {
+        viewModelScope.launch {
+            clearData()
+        }
+    }
+
 
     override fun onCleared() {
         super.onCleared()
