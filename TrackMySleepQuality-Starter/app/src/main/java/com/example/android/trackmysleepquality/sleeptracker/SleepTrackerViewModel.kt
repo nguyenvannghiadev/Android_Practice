@@ -31,17 +31,37 @@ class SleepTrackerViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
+    private val tonight = MutableLiveData<SleepNight?>()
+
     private val nights = database.getAllNights()
     val nightsString = Transformations.map(nights) { nights ->
         formatNights(nights, application.resources)
 
     }
 
-    private val tonight = MutableLiveData<SleepNight?>()
+    // If tonight has not been set, then the START button should be visible.
+    val startButtonVission = Transformations.map(tonight) {
+        it == null
+    }
+
+    //If tonight has been set, then the STOP button should be visible.
+    val stopButtonVission = Transformations.map(tonight) {
+        it != null
+    }
+
+    //If there are any nights in the database, show the CLEAR button.
+    val clearButtonVission = Transformations.map(nights) {
+        it?.isNotEmpty()
+    }
+
 
     private val _navigateToSleepQuality = MutableLiveData<SleepNight>()
     val navigateToSleepQuality: LiveData<SleepNight>
         get() = _navigateToSleepQuality
+
+    private val _showSnackbarEvent = MutableLiveData<Boolean>()
+    val showSnackbar: LiveData<Boolean>
+        get() = _showSnackbarEvent
 
     // Khoi init khoi tao gia tri phai duoi khai bao bien
     init {
@@ -53,6 +73,7 @@ class SleepTrackerViewModel(
             tonight.value = getTonightFromDatabase()
         }
     }
+
     //
     private suspend fun insertItem(newNight: SleepNight) {
         withContext(Dispatchers.IO) {
@@ -83,6 +104,10 @@ class SleepTrackerViewModel(
     }
 
     //
+
+    fun doneShowNackbar() {
+        _showSnackbarEvent.value = false
+    }
     fun doneNavigating() {
         _navigateToSleepQuality.value = null
     }
@@ -110,7 +135,13 @@ class SleepTrackerViewModel(
 
     fun onClear() {
         viewModelScope.launch {
+            // Clear the database table.
             clearData()
+
+            // And clear tonight since it's no longer in the database
+            tonight.value = null
+            // Show a snackbar message, because it's friendly.
+            _showSnackbarEvent.value = true
         }
     }
 
