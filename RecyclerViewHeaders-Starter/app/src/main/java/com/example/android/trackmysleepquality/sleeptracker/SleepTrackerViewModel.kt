@@ -17,11 +17,14 @@
 package com.example.android.trackmysleepquality.sleeptracker
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.example.android.trackmysleepquality.database.SleepDatabaseDao
 import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.formatNights
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 /**
  * ViewModel for SleepTrackerFragment.
@@ -35,6 +38,25 @@ class SleepTrackerViewModel(
      * Hold a reference to SleepDatabase via SleepDatabaseDao.
      */
     val database = dataSource
+
+    /** Coroutine variables */
+
+    /**
+     * viewModelJob allows us to cancel all coroutines started by this ViewModel.
+     */
+    private var viewModelJob = Job()
+
+    /**
+     * A [CoroutineScope] keeps track of all coroutines started by this ViewModel.
+     *
+     * Because we pass it [viewModelJob], any coroutine started in this uiScope can be cancelled
+     * by calling `viewModelJob.cancel()`
+     *
+     * By default, all coroutines started in uiScope will launch in [Dispatchers.Main] which is
+     * the main thread on Android. This is a sensible default because most coroutines started by
+     * a [ViewModel] update the UI after performing some processing.
+     */
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private var tonight = MutableLiveData<SleepNight?>()
 
@@ -94,21 +116,6 @@ class SleepTrackerViewModel(
     val navigateToSleepQuality: LiveData<SleepNight>
         get() = _navigateToSleepQuality
 
-    private val _navigateToSleepDetail = MutableLiveData<Long>()
-    val navigateToSleepDetail: LiveData<Long>
-        get() = _navigateToSleepDetail
-
-    //
-    fun onNightSleepClicked(id: Long) {
-        _navigateToSleepDetail.value = id
-    }
-
-    fun doneNavigatingToSleepDetail() {
-        _navigateToSleepDetail.value = null
-    }
-
-
-    //
     /**
      * Call this immediately after calling `show()` on a toast.
      *
@@ -129,12 +136,27 @@ class SleepTrackerViewModel(
         _navigateToSleepQuality.value = null
     }
 
+    /**
+     * Navigation for the SleepDetail fragment.
+     */
+    private val _navigateToSleepDetail = MutableLiveData<Long>()
+    val navigateToSleepDetail
+        get() = _navigateToSleepDetail
+
+    fun onSleepNightClicked(id: Long) {
+        _navigateToSleepDetail.value = id
+    }
+
+    fun onSleepDetailNavigated() {
+        _navigateToSleepDetail.value = null
+    }
+
     init {
         initializeTonight()
     }
 
     private fun initializeTonight() {
-        viewModelScope.launch {
+        uiScope.launch {
             tonight.value = getTonightFromDatabase()
         }
     }
@@ -147,30 +169,38 @@ class SleepTrackerViewModel(
      *  recording.
      */
     private suspend fun getTonightFromDatabase(): SleepNight? {
-        var night = database.getTonight()
-        if (night?.endTimeMilli != night?.startTimeMilli) {
-            night = null
+        return withContext(Dispatchers.IO) {
+            var night = database.getTonight()
+            if (night?.endTimeMilli != night?.startTimeMilli) {
+                night = null
+            }
+            night
         }
-        return night
     }
 
     private suspend fun insert(night: SleepNight) {
-        database.insert(night)
+        withContext(Dispatchers.IO) {
+            database.insert(night)
+        }
     }
 
     private suspend fun update(night: SleepNight) {
-        database.update(night)
+        withContext(Dispatchers.IO) {
+            database.update(night)
+        }
     }
 
     private suspend fun clear() {
-        database.clear()
+        withContext(Dispatchers.IO) {
+            database.clear()
+        }
     }
 
     /**
      * Executes when the START button is clicked.
      */
     fun onStart() {
-        viewModelScope.launch {
+        uiScope.launch {
             // Create a new night, which captures the current time,
             // and insert it into the database.
             val newNight = SleepNight()
@@ -185,7 +215,7 @@ class SleepTrackerViewModel(
      * Executes when the STOP button is clicked.
      */
     fun onStop() {
-        viewModelScope.launch {
+        uiScope.launch {
             // In Kotlin, the return@label syntax is used for specifying which function among
             // several nested ones this statement returns from.
             // In this case, we are specifying to return from launch().
@@ -205,7 +235,7 @@ class SleepTrackerViewModel(
      * Executes when the CLEAR button is clicked.
      */
     fun onClear() {
-        viewModelScope.launch {
+        uiScope.launch {
             // Clear the database table.
             clear()
 
@@ -215,5 +245,16 @@ class SleepTrackerViewModel(
             // Show a snackbar message, because it's friendly.
             _showSnackbarEvent.value = true
         }
+    }
+
+    /**
+     * Called when the ViewModel is dismantled.
+     * At this point, we want to cancel all coroutines;
+     * otherwise we end up with processes that have nowhere to return to
+     * using memory and resources.
+     */
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

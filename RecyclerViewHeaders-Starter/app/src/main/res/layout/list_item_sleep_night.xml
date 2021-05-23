@@ -20,14 +20,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="sleep"
-            type="com.example.android.trackmysleepquality.database.SleepNight" />
-
+            type="com.example.android.trackmysleepquality.database.SleepNight"/>
         <variable
             name="clickListener"
             type="com.example.android.trackmysleepquality.sleeptracker.SleepNightListener" />
+
     </data>
 
 
@@ -46,8 +45,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:sleepImage="@{sleep}"
-            tools:srcCompat="@drawable/ic_sleep_5" />
+            tools:srcCompat="@drawable/ic_sleep_5"
+            app:sleepImage="@{sleep}"/>
 
         <TextView
             android:id="@+id/quality_string"
@@ -59,8 +58,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/quality_image"
             app:layout_constraintTop_toBottomOf="@+id/quality_image"
-            app:sleepQualityString="@{sleep}"
-            tools:text="Excellent!!!" />
+            tools:text="Excellent!!!"
+            app:sleepQualityString="@{sleep}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
