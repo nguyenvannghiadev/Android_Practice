@@ -15,7 +15,9 @@ import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.internal.subscribers.StrictSubscriber;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements Api {
@@ -36,83 +38,68 @@ public class MainActivity extends AppCompatActivity implements Api {
 
 	private void loadAndSurcribeFootballPlayer() {
 		Observable<String> footballPlayersObservable = Observable.just("Messi", "Ronaldo", "Modric", "Manadona", "Roney");
-		Observer<String> footballPlayerObserver = getFootballPlayersObserver();
 		footballPlayersObservable
 				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
 				.filter(new Predicate<String>() {
 					@Override
 					public boolean test(@NotNull String s) throws Exception {
 						return s.toLowerCase().startsWith("m");
 					}
 				})
-				.subscribe(footballPlayerObserver);
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Observer<String>() {
+					@Override
+					public void onSubscribe(Disposable d) {
+						disposable = d;
+						Log.d(TAG, "onSubscribe");
+					}
+
+					@Override
+					public void onNext(String s) {
+						Log.d(TAG, "Name: " + s);
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						Log.d(TAG, "onError: " + e.getMessage());
+					}
+
+					@Override
+					public void onComplete() {
+						Log.d(TAG, "onComplete: All FootballPlayer are emmited");
+					}
+				});
 
 	}
 
-	private Observer<String> getFootballPlayersObserver() {
-		return new Observer<String>() {
-			@Override
-			public void onSubscribe(@NotNull Disposable d) {
-				disposable = d;
-				Log.d(TAG, "onSubscribe");
-			}
-
-			@Override
-			public void onNext(@NotNull String s) {
-				Log.d(TAG, "Name: " + s);
-
-			}
-
-			@Override
-			public void onError(@NotNull Throwable e) {
-				Log.d(TAG, "onError: " + e.getMessage());
-
-			}
-
-			@Override
-			public void onComplete() {
-				Log.d(TAG, "onComplete: All FootballPlayer are emmited");
-
-			}
-		};
-	}
-
+	@SuppressLint("CheckResult")
 	private void loadAndSurcribe2() {
-		Observable<String> countryObservable = Observable.just("VietNam", "England", "US", "Canana", "France", "Japan");
-		Observer<String> countryObserver = getCountriesObserver2();
-		countryObservable
+		Observable.just("VietNam", "England", "US", "Canana", "France", "Japan")
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(countryObserver);
-	}
+				.subscribe(new Observer<String>() {
+					           @Override
+					           public void onSubscribe(Disposable d) {
+						           disposable = d;
+						           Log.d(TAG, "onSubscribe");
+					           }
 
-	private Observer<String> getCountriesObserver2() {
-		return new Observer<String>() {
-			@Override
-			public void onSubscribe(@org.jetbrains.annotations.NotNull Disposable d) {
-				Log.d(TAG, "onSubscribe");
+					           @Override
+					           public void onNext(String s) {
+						           Log.d(TAG, "Country2 >>: " + s);
+					           }
 
-			}
+					           @Override
+					           public void onError(Throwable e) {
+						           Log.d(TAG, "onError: " + e.getMessage());
+					           }
 
-			@Override
-			public void onNext(@org.jetbrains.annotations.NotNull String s) {
-				Log.d(TAG, "Country2 >>: " + s);
-
-			}
-
-			@Override
-			public void onError(@org.jetbrains.annotations.NotNull Throwable e) {
-				Log.d(TAG, "onError: " + e.getMessage());
-
-			}
-
-			@Override
-			public void onComplete() {
-				Log.d(TAG, "onComplete: All Countries are emitted");
-
-			}
-		};
+					           @Override
+					           public void onComplete() {
+						           Log.d(TAG, "onComplete: All Countries are emitted");
+					           }
+				           }
+				);
 	}
 
 
@@ -170,6 +157,18 @@ public class MainActivity extends AppCompatActivity implements Api {
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(string -> printChar(string));
 
+	}
+
+	@SuppressLint("CheckResult")
+	private void oparatorMap() {
+		Observable.just("Hello, world!")
+				.map(
+						s -> s + "-Dan"
+				).subscribe(System.out::println).dispose();
+		Observable.just("Hello!")
+				.map(
+				String::hashCode
+		).subscribe(System.out::println);
 	}
 
 	@Override
