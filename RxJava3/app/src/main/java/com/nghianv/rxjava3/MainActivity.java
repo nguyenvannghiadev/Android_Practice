@@ -2,6 +2,7 @@ package com.nghianv.rxjava3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Predicate;
@@ -155,6 +157,19 @@ public class MainActivity extends AppCompatActivity implements Api {
 	@Override
 	public List<Movie> parse(String json) {
 		return null;
+	}
+
+	@SuppressLint("CheckResult")
+	public void printChar(String s) {
+		Observable.range(0, 9)
+				.filter(it -> {
+					return it % 2 == 1;
+				})
+				.map(it -> it.toString())
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(string -> printChar(string));
+
 	}
 
 	@Override
