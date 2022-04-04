@@ -1,6 +1,7 @@
 package com.example.rxjava4
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -23,8 +24,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //
-        buttonClick.setOnClickListener({ startStream2() })
+        buttonClick.setOnClickListener({
+            startStream2()
+            startExampleActivity()
+        })
         demoContcat();
+    }
+
+    private fun startExampleActivity() {
+        val intent = Intent(this, ExampleActivity::class.java)
+        startActivity(intent)
     }
 
     @SuppressLint("CheckResult")

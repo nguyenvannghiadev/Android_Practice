@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RxJava4">
         <activity
+            android:name=".Example2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ExampleActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
