@@ -7,16 +7,27 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -30,11 +41,99 @@ class MainActivity : ComponentActivity() {
 		enableEdgeToEdge()
 		setContent {
 			JetPackComposeTheme {
-				CircleExample()
+				ButtonExample()
 			}
 		}
 	}
 }
+
+@Preview(showBackground = true, widthDp = 320)
+@Composable
+fun GreetingPreview() {
+	JetPackComposeTheme {
+		ButtonExample()
+	}
+}
+
+@Composable
+fun ButtonExample() {
+	var clickCount by remember { mutableStateOf(0) }
+	// State cho số lượt click của button "Welcome"
+	var welcomeClickCount by remember { mutableStateOf(0) }
+	// State cho hiệu ứng swipe của button "Hello"
+	var helloOffsetX by remember { mutableStateOf(0f) }
+
+	// State cho hiệu ứng swipe của button "Welcome"
+	var welcomeOffsetX by remember { mutableStateOf(0f) }
+
+	Column(
+		modifier = Modifier.fillMaxWidth().padding(16.dp).fillMaxHeight(),
+		verticalArrangement = Arrangement.Center,
+		horizontalAlignment = Alignment.CenterHorizontally
+	) {
+		Button(
+			onClick = {
+				clickCount++
+			},
+			colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+			shape = RoundedCornerShape(8.dp),
+			modifier = Modifier.height(48.dp).fillMaxWidth()
+		) {
+			Text(
+				text = "Hello click $clickCount", color = Color.White
+			)
+		}
+
+		// Button "Welcome"
+		Button(
+			onClick = {
+				welcomeClickCount++
+				welcomeOffsetX += 50f
+			},
+			colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
+			shape = RoundedCornerShape(8.dp),
+			modifier = Modifier
+				.height(48.dp)
+				.offset(y = welcomeOffsetX.dp)
+		) {
+			Text(
+				text = "Welcome ($welcomeClickCount)",
+				color = Color.White
+			)
+		}
+	}
+
+}
+
+@Composable
+fun OvelappingCircleWithBlend() {
+	Column(
+		modifier = Modifier.fillMaxWidth().padding(16.dp),
+		verticalArrangement = Arrangement.Center,
+		horizontalAlignment = Alignment.CenterHorizontally
+	) {
+		val circleRadius = 200f
+		Canvas(modifier = Modifier.fillMaxSize()) {
+			drawCircle(
+				color = Color.Red,
+				radius = circleRadius,
+				style = Fill,
+			)
+			drawCircle(
+				color = Color.Green,
+				radius = circleRadius,
+				style = Stroke(width = 8.dp.toPx())
+			)
+			drawCircle(
+				color = Color.Blue,
+				radius = size.minDimension / 2f,
+				blendMode = BlendMode.ColorBurn
+			)
+		}
+	}
+
+}
+
 
 @Composable
 fun CircleExample() {
@@ -81,10 +180,3 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 	}
 }
 
-@Preview(showBackground = true, widthDp = 320)
-@Composable
-fun GreetingPreview() {
-	JetPackComposeTheme {
-		CircleExample()
-	}
-}
